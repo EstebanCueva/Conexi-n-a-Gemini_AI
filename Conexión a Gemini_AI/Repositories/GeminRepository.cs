@@ -1,54 +1,48 @@
-﻿using System.Net.Http;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Text;
 using Conexión_a_Gemini_AI.Interfaces;
 using Conexión_a_Gemini_AI.Models;
 using Newtonsoft.Json.Linq;
+using static Conexión_a_Gemini_AI.Models.GeminiRequest;
+
 
 namespace Conexión_a_Gemini_AI.Repositories
 {
-    public class GeminRepository : IChatBotServices
+    public class GeminRepository:IChatBotServices
     {
-        private HttpClient _httpClient;
-        private string geminiApiKey = "AIzaSyBZFA1dpLS1DejGK4otzvJCCmf1dgSn6SI";
+        HttpClient _httpClient;
+        private string apiKey = "AIzaSyByx-30z3Zp09aHe33exz7PmMGcKhoUoew";
         public GeminRepository()
         {
             _httpClient = new HttpClient();
         }
         public async Task<string> GetChatBotResponceAsync(string prompt)
         {
-            string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + geminiApiKey;
+            string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey;
+            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, url);
+
             GeminiRequest request = new GeminiRequest
             {
-                contents = new List<GeminiContent>
+                contents = new List<Content>
                 {
-                    new GeminiContent
+                    new Content
                     {
-                        parts= new List<GeminiPart>
+                        parts = new List<Part>
                         {
-                            new GeminiPart
+                            new Part
                             {
-                                text= prompt
+                                text = prompt
                             }
                         }
                     }
                 }
             };
-            string requestJson = JsonConvert.SerializeObject(request);
-            var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(url, content);
-            var answer = await response.Content.ReadAsStringAsync();
-            
-            var jsonObj = JsonConvert.DeserializeObject<JObject>(answer);
-            string respuestaTexto = (string)jsonObj["candidates"]?[0]?["content"]?["parts"]?[0]?["text"];
+            message.Content = JsonContent.Create<GeminiRequest>(request);
 
-            return respuestaTexto ?? "No se recibió respuesta del modelo";
+            var response = await _httpClient.SendAsync(message);
+            string answer = await response.Content.ReadAsStringAsync();
 
-        }
-
-        public Task<bool> SaveResponceInDB(string chatbotPrompt, string chatbotResponse)
-        {
-            throw new NotImplementedException();
+            return answer;
         }
     }
 }

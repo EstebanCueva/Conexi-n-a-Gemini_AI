@@ -1,19 +1,21 @@
-﻿namespace Conexión_a_Gemini_AI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Conexión_a_Gemini_AI.Models
 {
     public class GeminiRequest
     {
-        public List<GeminiContent> contents { get; set; }
-    }
-    public class GeminiContent
-    {
-        public List<GeminiPart> parts { get; set; }
-    }
-    public class GeminiPart
-    {
-        public string text { get; set; }
+        public List<Content> contents { get; set; }
 
-    }
-    public class GeminiModels
-    {
+        public class Part
+        {
+            public string text { get; set; }
+        }
+
+        public class Content
+        {
+            public List<Part> parts { get; set; }
+        }
+
+        public int Id;
     }
 }

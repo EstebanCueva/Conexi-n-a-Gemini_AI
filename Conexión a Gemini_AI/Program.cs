@@ -1,7 +1,16 @@
+using Conexión_a_Gemini_AI.Interfaces;
+using Conexión_a_Gemini_AI.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<GeminRepository>();
+builder.Services.AddScoped<TogetherAiRepository>();
+
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 

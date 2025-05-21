@@ -3,7 +3,5 @@
     public interface IChatBotServices
     {
         public Task<string> GetChatBotResponceAsync(string prompt);
-        public Task<Boolean> SaveResponceInDB(string chatbotPrompt, string chatbotResponse);
-
     }
 }

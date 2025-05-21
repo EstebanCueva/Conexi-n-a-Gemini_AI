@@ -1,16 +1,82 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Chatbot";
 }
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Grupo 3</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
 
-<h2>Pregúntale al modelo</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px; justify-content: center;">
+    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 15px; width: 250px; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
+        <img src="~/Images/YO.jpg" alt="Esteban" style="width: 100%; border-radius: 10px;">
+        <h3 style="margin-top: 10px;">Esteban Cueva</h3>
+        <p><strong>Correo:</strong> esteban.cueva@udla.edu.ec</p>
+        <p><strong>Intereses:</strong> Tocar la guitarra</p>
+        <p><strong>Intereses:</strong> Jugar Videojuegos</p>
+    </div>
+    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 15px; width: 250px; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
+        <img src="~/Images/Stheven.png" alt="Stheven" style="width: 100%; border-radius: 10px;">
+        <h3 style="margin-top: 10px;">Stheeven Quishpe</h3>
+        <p><strong>Correo:</strong> stheeven.quishpe@udla.edu.ec</p>
+        <p><strong>Intereses:</strong> Boxear</p>
+    </div>
+    <div style="border: 1px solid #ccc; border-radius: 10px; padding: 15px; width: 250px; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
+        <img src="~/Images/CARLOS.png" alt="Miguel Molina" style="width: 100%; border-radius: 10px;">
+        <h3 style="margin-top: 10px;">Miguel Molina</h3>
+        <p><strong>Correo:</strong> Miguel.Molina@udla.edu.ec</p>
+        <p><strong>Intereses:</strong> Futbol</p>
+    </div>
+</div>
 
-<form asp-action="Index" method="post">
-    <textarea name="userPrompt" rows="4" cols="50" placeholder="Escribe tu pregunta aquí..."></textarea><br />
-    <button type="submit">Enviar</button>
-</form>
+<main class="container mt-5">
+    <h2 class="text-center mb-4">Hazle una pregunta al <strong>ChatBot</strong></h2>
 
-@if (ViewBag.chatbotAnswer != null)
-{
-    <h3>Respuesta:</h3>
-    <p>@ViewBag.chatbotAnswer</p>
-}
+    <form method="post" class="d-flex justify-content-center mb-4">
+        <input type="text" name="prompt" class="form-control me-2 w-50" placeholder="Escribe tu pregunta aquí" required />
+
+        <select name="chatbot" class="form-select me-2 w-auto">
+            <option value="Gemini" selected="@(ViewBag.ChatbotSeleccionado == "Gemini")">Gemini</option>
+            <option value="TogetherAI" selected="@(ViewBag.ChatbotSeleccionado == "TogetherAI")">TogetherAI</option>
+        </select>
+
+
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+
+    @if (!string.IsNullOrEmpty(ViewBag.chatbotAnswer as string))
+    {
+        <div class="alert alert-info text-center">
+            <h5>Respuesta del Chatbot:</h5>
+            <p>@ViewBag.chatbotAnswer</p>
+        </div>
+    }
+</main>
+
+<footer class="text-center text-lg-start bg-light text-muted mt-5 border-top">
+    <section class="py-4">
+        <div class="container text-center text-md-start">
+            <div class="row">
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">
+                        <i class="fas fa-gem me-3"></i>Grupo 3_Progra IV
+                    </h6>
+                    <p>ChatBot (Cueva, Quishpe, Miguel).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</footer>
